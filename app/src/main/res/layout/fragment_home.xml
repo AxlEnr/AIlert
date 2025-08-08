@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ailert_logo"
+        android:contentDescription="Logo" />
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AILERT"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp" />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Presiona para activar la detección"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp" />
+
+    <FrameLayout
+        android:id="@+id/power_button_container"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/power_button_bg"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_power"
+            android:contentDescription="Power Icon" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/detection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado: Inactivo"
+        android:layout_marginTop="50dp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>
