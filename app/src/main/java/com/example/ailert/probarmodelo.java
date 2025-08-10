@@ -27,16 +27,11 @@ public class probarmodelo extends AppCompatActivity {
     private static final String TAG = "AudioClassifierApp";
     private static final int REQUEST_RECORD_AUDIO = 1;
 
-    // UI Components
     private TextView txtPrediction;
     private Button btnStart;
-
-    // Audio classification
     private AudioClassifier classifier;
     private TensorAudio tensorAudio;
     private AudioRecord record;
-
-    // Thread management
     private ExecutorService executorService;
     private final AtomicBoolean isListening = new AtomicBoolean(false);
     private final AtomicBoolean isModelLoaded = new AtomicBoolean(false);

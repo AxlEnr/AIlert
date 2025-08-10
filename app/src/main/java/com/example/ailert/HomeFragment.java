@@ -132,7 +132,6 @@ public class HomeFragment extends Fragment {
                         })
                         .addOnFailureListener(e -> sendSMS(emergencyContactNumber, emergencyMessage));
             } catch (SecurityException se) {
-                // Si por alguna razón el permiso se perdió en tiempo de ejecución
                 sendSMS(emergencyContactNumber, emergencyMessage);
             }
         } else {
@@ -209,27 +208,17 @@ public class HomeFragment extends Fragment {
 
     private void updateUI() {
         if (serviceRunning) {
-            // Quitar cualquier tintado para que el drawable se vea puro
             startServiceButton.setBackgroundTintList(null);
-
-            // Poner drawable ON como fondo
             Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.on);
             startServiceButton.setBackground(drawable);
-
-            // Cambiar color del texto a verde
             int color = ContextCompat.getColor(requireContext(), R.color.green);
             startServiceButton.setTextColor(color);
 
             detectionStatusText.setText("Estado: Activo");
         } else {
-            // Quitar tintado también cuando está apagado
             startServiceButton.setBackgroundTintList(null);
-
-            // Poner drawable OFF como fondo
             Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.off);
             startServiceButton.setBackground(drawable);
-
-            // Opcional: poner color de texto a rojo o predeterminado
             int color = ContextCompat.getColor(requireContext(), R.color.red);
             startServiceButton.setTextColor(color);
 

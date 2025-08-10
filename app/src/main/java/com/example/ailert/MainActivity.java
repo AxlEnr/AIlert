@@ -1,5 +1,6 @@
 package com.example.ailert;
 
+import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,14 +18,18 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        loadFragment(new HomeFragment());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            loadFragment(new HomeFragment());
+        }
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
             int itemId = item.getItemId();
 
             if (itemId == R.id.nav_home) {
-                fragment = new HomeFragment();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    fragment = new HomeFragment();
+                }
             } else if (itemId == R.id.nav_config) {
                 fragment = new ConfigFragment();
             }

@@ -42,7 +42,6 @@ public class ConfigFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_config, container, false);
 
-        // Inicializar vistas
         cbBalas = view.findViewById(R.id.sound_balas);
         cbGritos = view.findViewById(R.id.sound_gritos);
         cbLadridos = view.findViewById(R.id.sound_ladridos);
@@ -97,20 +96,15 @@ public class ConfigFragment extends Fragment {
         String baseMessage = etMensaje.getText().toString().trim();
         editor.putString("mensaje_base", baseMessage);
 
-        // Construir lista dinámica de sonidos seleccionados
         StringBuilder detectedSounds = new StringBuilder();
         if (cbBalas.isChecked()) detectedSounds.append("disparos, ");
         if (cbGritos.isChecked()) detectedSounds.append("gritos, ");
         if (cbLadridos.isChecked()) detectedSounds.append("ladridos, ");
         if (cbVidrio.isChecked()) detectedSounds.append("vidrios rotos, ");
         if (cbFuego.isChecked()) detectedSounds.append("fuego, ");
-
-        // Eliminar última coma
         if (detectedSounds.length() > 0) {
             detectedSounds.setLength(detectedSounds.length() - 2);
         }
-
-        // Construir mensaje final
         String finalMessage = baseMessage;
         if (detectedSounds.length() > 0) {
             finalMessage += "\n\n(Alerta enviada por posible ruido de: " + detectedSounds + ")";
