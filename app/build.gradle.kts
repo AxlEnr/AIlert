@@ -41,7 +41,8 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite:2.14.0")  // Runtime principal
     implementation("org.tensorflow:tensorflow-lite-support:0.4.4")  // Utilidades para pre/post-procesamiento
     implementation("org.tensorflow:tensorflow-lite-task-audio:0.4.4")  // Procesamiento de audio
-    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")  // Metadatos para modelos
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

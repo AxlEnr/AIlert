@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/home_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:layout_gravity="center">
 
     <ImageView
         android:layout_width="150dp"
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AILERT"
-        android:textSize="32sp"
+        android:textSize="38sp"
         android:textStyle="bold"
         android:layout_marginTop="12dp" />
 
@@ -28,23 +29,28 @@
         android:layout_height="wrap_content"
         android:text="Presiona para activar la detección"
         android:layout_marginTop="12dp"
-        android:textSize="16sp" />
 
-    <FrameLayout
-        android:id="@+id/power_button_container"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/power_button_bg"
-        android:clickable="true"
-        android:focusable="true">
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_power"
-            android:contentDescription="Power Icon" />
-    </FrameLayout>
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/startServiceButton"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="30dp"
+        android:padding="20dp"
+        android:textSize="25sp"
+        android:background="@drawable/on"
+        />
+
+    <Button
+        android:id="@+id/requestPermissionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dar permisos"
+        android:padding="20dp"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"/>
+
 
     <TextView
         android:id="@+id/detection_status"
