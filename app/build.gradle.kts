@@ -32,11 +32,17 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
+    // Usa las dependencias oficiales de TensorFlow Lite (versión estable más reciente)
+    implementation("org.tensorflow:tensorflow-lite:2.14.0")  // Runtime principal
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")  // Utilidades para pre/post-procesamiento
+    implementation("org.tensorflow:tensorflow-lite-task-audio:0.4.4")  // Procesamiento de audio
+    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")  // Metadatos para modelos
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
