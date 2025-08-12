@@ -37,6 +37,7 @@
                 <CheckBox android:id="@+id/sound_ladridos" android:text="Ladridos de perro" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                 <CheckBox android:id="@+id/sound_vidrio" android:text="Vidrio rompiéndose" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                 <CheckBox android:id="@+id/sound_fuego" android:text="Fuego" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <CheckBox android:id="@+id/sound_sirenas" android:text="Sirenas" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

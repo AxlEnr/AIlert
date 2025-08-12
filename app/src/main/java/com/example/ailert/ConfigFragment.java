@@ -24,14 +24,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 public class ConfigFragment extends Fragment {
 
     private static final int PERMISSION_REQUEST_CONTACTS = 200;
     private static final int PICK_CONTACT = 201;
 
-    private CheckBox cbBalas, cbGritos, cbLadridos, cbVidrio, cbFuego;
+    private CheckBox cbBalas, cbGritos, cbVidrio, cbFuego, cbSirenas;
     private EditText etMensaje;
     private TextView tvContacto;
     private Button btnSelectContact, btnSave;
@@ -44,9 +43,9 @@ public class ConfigFragment extends Fragment {
 
         cbBalas = view.findViewById(R.id.sound_balas);
         cbGritos = view.findViewById(R.id.sound_gritos);
-        cbLadridos = view.findViewById(R.id.sound_ladridos);
         cbVidrio = view.findViewById(R.id.sound_vidrio);
         cbFuego = view.findViewById(R.id.sound_fuego);
+        cbSirenas = view.findViewById(R.id.sound_sirenas);
         etMensaje = view.findViewById(R.id.message_input);
         tvContacto = view.findViewById(R.id.contact_text);
         btnSelectContact = view.findViewById(R.id.select_contact_button);
@@ -62,66 +61,42 @@ public class ConfigFragment extends Fragment {
         return view;
     }
 
-    /** Cargar preferencias guardadas **/
     private void loadPreferences() {
         cbBalas.setChecked(preferences.getBoolean("sound_balas", false));
         cbGritos.setChecked(preferences.getBoolean("sound_gritos", false));
-        cbLadridos.setChecked(preferences.getBoolean("sound_ladridos", false));
         cbVidrio.setChecked(preferences.getBoolean("sound_vidrio", false));
         cbFuego.setChecked(preferences.getBoolean("sound_fuego", false));
+        cbSirenas.setChecked(preferences.getBoolean("sound_sirenas", false));
 
         etMensaje.setText(preferences.getString("mensaje_base", "¡Ayuda! Esta es una emergencia."));
         tvContacto.setText(preferences.getString("contacto_nombre", "No seleccionado"));
     }
 
-    /** Guardar preferencias **/
     private void savePreferences() {
-        // Validar que al menos un sonido esté seleccionado
-        if (!cbBalas.isChecked() && !cbGritos.isChecked() && !cbLadridos.isChecked()
-                && !cbVidrio.isChecked() && !cbFuego.isChecked()) {
+        if (!cbBalas.isChecked() && !cbGritos.isChecked() && !cbVidrio.isChecked()
+                && !cbFuego.isChecked() && !cbSirenas.isChecked()) {
             Toast.makeText(getContext(), "Selecciona al menos un sonido", Toast.LENGTH_SHORT).show();
             return;
         }
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        // Guardar estado de checkboxes
         editor.putBoolean("sound_balas", cbBalas.isChecked());
         editor.putBoolean("sound_gritos", cbGritos.isChecked());
-        editor.putBoolean("sound_ladridos", cbLadridos.isChecked());
         editor.putBoolean("sound_vidrio", cbVidrio.isChecked());
         editor.putBoolean("sound_fuego", cbFuego.isChecked());
+        editor.putBoolean("sound_sirenas", cbSirenas.isChecked());
 
-        // Guardar mensaje base
         String baseMessage = etMensaje.getText().toString().trim();
+        if (baseMessage.isEmpty()) {
+            baseMessage = "¡Ayuda! Esta es una emergencia.";
+        }
         editor.putString("mensaje_base", baseMessage);
-
-        StringBuilder detectedSounds = new StringBuilder();
-        if (cbBalas.isChecked()) detectedSounds.append("disparos, ");
-        if (cbGritos.isChecked()) detectedSounds.append("gritos, ");
-        if (cbLadridos.isChecked()) detectedSounds.append("ladridos, ");
-        if (cbVidrio.isChecked()) detectedSounds.append("vidrios rotos, ");
-        if (cbFuego.isChecked()) detectedSounds.append("fuego, ");
-        if (detectedSounds.length() > 0) {
-            detectedSounds.setLength(detectedSounds.length() - 2);
-        }
-        String finalMessage = baseMessage;
-        if (detectedSounds.length() > 0) {
-            finalMessage += "\n\n(Alerta enviada por posible ruido de: " + detectedSounds + ")";
-        }
-
-        editor.putString("mensaje_emergencia", finalMessage);
         editor.apply();
 
         Toast.makeText(getContext(), "Configuración guardada", Toast.LENGTH_SHORT).show();
-
-        if (getActivity() != null) {
-            getActivity().finish();
-        }
-
     }
 
-    /** Solicitar permiso de contactos **/
     private void requestContactPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -133,13 +108,11 @@ public class ConfigFragment extends Fragment {
         }
     }
 
-    /** Abrir selector de contactos **/
     private void openContactPicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, PICK_CONTACT);
     }
 
-    /** Resultado de permisos **/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -152,7 +125,6 @@ public class ConfigFragment extends Fragment {
         }
     }
 
-    /** Resultado de selección de contacto **/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -163,7 +135,6 @@ public class ConfigFragment extends Fragment {
             String contactId = null;
             String contactName = null;
 
-            // Obtener nombre e ID
             try (Cursor cursor = requireActivity().getContentResolver().query(
                     contactUri,
                     new String[]{ContactsContract.Contacts._ID, ContactsContract.Contacts.DISPLAY_NAME},
@@ -175,7 +146,6 @@ public class ConfigFragment extends Fragment {
                 }
             }
 
-            // Obtener número
             if (contactId != null) {
                 try (Cursor phoneCursor = requireActivity().getContentResolver().query(
                         ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -186,7 +156,6 @@ public class ConfigFragment extends Fragment {
                         String phoneNumber = phoneCursor.getString(
                                 phoneCursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-                        // Guardar contacto
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("contacto_nombre", contactName);
                         editor.putString("contacto_numero", phoneNumber);
